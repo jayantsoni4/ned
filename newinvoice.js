@@ -15,33 +15,72 @@ app.use(bodyParser.json());  // Parse incoming JSON bodies
 // Mongoose model for Invoice
 const invoiceSchema = new mongoose.Schema({
   companyName: { type: String, required: true },
+  personName: { type: String },
+  gstuin: { type: String },
   address: { type: String, required: true },
+  statename: { type: String },
   contactNumber: { type: String, required: true },
+  companyFormation: { type: String, default: 'Milenium Company' },
   courier: {
     dispatchLocation: { type: String },
+    deleiveryNote: { type: String },
+    dated: { type: String },
+    docket: { type: String },
+    buyer: { type: String },
+    otherRef: { type: String },
+    refernceNO: { type: String },
+    mode: { type: String },
+    deleveryNote: { type: String },
+    invoiceno: { type: String },
+    currentdate: { type: String },
     courierName: { type: String },
-    status: { type: String, default: 'pending' },
+    termsofdeleivery: { type: String }
   },
   productDetails: [
     {
-      description: { type: String },
       hsnCode: { type: String },
+      product: { type: String },
+      model: { type: String },
       quantity: { type: Number },
       price: { type: Number },
       igst: { type: Number },
-      cgst: { type: Number },
-      sgst: { type: Number },
+      discount: { type: Number },
       totalAmount: { type: Number },
     },
   ],
-  invoiceType: { type: String, default: 'intra-state' },
+  spgsDetails: [
+    {
+      hsnCode: { type: String },
+      product: { type: String },
+      model: { type: String },
+      quantity: { type: Number },
+      price: { type: Number },
+      igst: { type: Number },
+      discount: { type: Number },
+      totalAmount: { type: Number },
+    },
+  ],
+  focDetails: [
+    {
+      hsnCode: { type: String },
+      product: { type: String },
+      model: { type: String },
+      quantity: { type: Number },
+      price: { type: Number },
+      igst: { type: Number },
+      discount: { type: Number },
+      totalAmount: { type: Number },
+    },
+  ]
 });
+
 
 // Mongoose Model for Invoice
 const Invoice = mongoose.model('Invoice', invoiceSchema);
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://khushsoni839:ks1234@cluster0.u3hib.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+// mongoose.connect('mongodb+srv://khushsoni839:ks1234@cluster0.u3hib.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://service:services1234@cluster0.wxa147v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -64,16 +103,33 @@ app.get('/api/invoices', async (req, res) => {
 });
 
 // POST route to create a new invoice
-app.post('/api/invoices', async (req, res) => {
-  const { companyName, address, contactNumber, courier, productDetails, invoiceType } = req.body;
+app.post('/api/newinvoice', async (req, res) => {
+  const {
+    companyName,
+    personName,
+    gstuin,
+    address,
+    statename,
+    contactNumber,
+    companyFormation,
+    courier,
+    productDetails,
+    spgsDetails,
+    focDetails
+  } = req.body;
 
   const newInvoice = new Invoice({
     companyName,
+    personName,
+    gstuin,
     address,
+    statename,
     contactNumber,
+    companyFormation,
     courier,
     productDetails,
-    invoiceType,
+    spgsDetails,
+    focDetails
   });
 
   try {
@@ -86,15 +142,39 @@ app.post('/api/invoices', async (req, res) => {
 });
 
 // PUT route to update an existing invoice
-app.put('/api/invoices/:id', async (req, res) => {
+app.put('/api/newinvoice/:id', async (req, res) => {
   const { id } = req.params;
-  const { companyName, address, contactNumber, courier, productDetails, invoiceType } = req.body;
+  const {
+    companyName,
+    personName,
+    gstuin,
+    address,
+    statename,
+    contactNumber,
+    companyFormation,
+    courier,
+    productDetails,
+    spgsDetails,
+    focDetails
+  } = req.body;
 
   try {
     const updatedInvoice = await Invoice.findByIdAndUpdate(
       id,
-      { companyName, address, contactNumber, courier, productDetails, invoiceType },
-      { new: true }  // Return the updated invoice
+      {
+        companyName,
+        personName,
+        gstuin,
+        address,
+        statename,
+        contactNumber,
+        companyFormation,
+        courier,
+        productDetails,
+        spgsDetails,
+        focDetails
+      },
+      { new: true }
     );
     res.status(200).json(updatedInvoice);
   } catch (error) {
@@ -102,6 +182,7 @@ app.put('/api/invoices/:id', async (req, res) => {
     res.status(400).json({ error: 'Error updating invoice' });
   }
 });
+
 
 // DELETE route to delete an invoice
 app.delete('/api/invoices/:id', async (req, res) => {
