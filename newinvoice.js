@@ -79,7 +79,9 @@ const invoiceSchema = new mongoose.Schema({
 const Invoice = mongoose.model('Invoice', invoiceSchema);
 
 // Connect to MongoDB
+// mongoose.connect('mongodb+srv://khushsoni839:ks1234@cluster0.u3hib.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
 mongoose.connect('mongodb+srv://service:services1234@cluster0.wxa147v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+// mongoose.connect('mongodb+srv://ages27771:ages12345@cluster0.t2zpj0w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -101,6 +103,7 @@ app.get('/api/newinvoice', async (req, res) => {
   }
 });
 
+// mongodb+srv://service:<db_password>@cluster0.wxa147v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 // POST route to create a new invoice
 app.post('/api/newinvoice', async (req, res) => {
@@ -185,7 +188,7 @@ app.put('/api/newinvoice/:id', async (req, res) => {
 
 
 // DELETE route to delete an invoice
-app.delete('/api/invoices/:id', async (req, res) => {
+app.delete('/api/newinvoice/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
