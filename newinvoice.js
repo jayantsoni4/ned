@@ -79,7 +79,9 @@ const invoiceSchema = new mongoose.Schema({
 const Invoice = mongoose.model('Invoice', invoiceSchema);
 
 // Connect to MongoDB
+// mongoose.connect('mongodb+srv://khushsoni839:ks1234@cluster0.u3hib.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
 mongoose.connect('mongodb+srv://service:services1234@cluster0.wxa147v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+// mongoose.connect('mongodb+srv://ages27771:ages12345@cluster0.t2zpj0w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -91,7 +93,7 @@ mongoose.connect('mongodb+srv://service:services1234@cluster0.wxa147v.mongodb.ne
   });
 
 // GET route to fetch all invoices
-app.get('/api/invoices', async (req, res) => {
+app.get('/api/newinvoice', async (req, res) => {
   try {
     const invoices = await Invoice.find();
     res.status(200).json(invoices);
@@ -100,6 +102,8 @@ app.get('/api/invoices', async (req, res) => {
     res.status(500).json({ error: 'Error fetching invoices' });
   }
 });
+
+// mongodb+srv://service:<db_password>@cluster0.wxa147v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 // POST route to create a new invoice
 app.post('/api/newinvoice', async (req, res) => {
