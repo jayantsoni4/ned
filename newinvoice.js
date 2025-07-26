@@ -101,7 +101,6 @@ app.get('/api/newinvoice', async (req, res) => {
   }
 });
 
-// mongodb+srv://service:<db_password>@cluster0.wxa147v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 // POST route to create a new invoice
 app.post('/api/newinvoice', async (req, res) => {
